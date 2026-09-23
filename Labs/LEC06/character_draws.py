@@ -14,6 +14,8 @@ def move_triangle():
     pass
 
 open_canvas(800, 600)
+grass = load_image('grass.png')
+character = load_image('character.png')
 
 while True:
     move_circle()
