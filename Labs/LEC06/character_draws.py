@@ -17,16 +17,25 @@ def move_circle():
 
 def move_rectangle():
     print("rectangle")
-    x = 0
-    y = 90
     mv_mode = 0
     while mv_mode < 4:
         if mv_mode == 0:
+            x = 0
+            y = 90
             while x < 900:
                 clear_canvas()
                 grass.draw(400, 30)
                 character.draw(x, y)
                 x += 1
+                update_canvas()
+        elif mv_mode == 1:
+            x = 900
+            y = 90
+            while y < 600:
+                clear_canvas()
+                grass.draw(400, 30)
+                character.draw(x, y)
+                y += 1
                 update_canvas()
         mv_mode += 1
     pass
