@@ -1,3 +1,5 @@
 {
-    "python.terminal.executeInFileDir": true
+    "python.terminal.executeInFileDir": true,
+    "python.defaultInterpreterPath": "C:/Users/kok33/OneDrive/Desktop/alg_2026_git/2DGP-2023180010/venv/Scripts/python.exe",
+    "python.terminal.activateEnvironment": true
 }
