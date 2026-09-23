@@ -83,7 +83,7 @@ def move_triangle():
                 update_canvas()
         elif mv_mode == 2:
             x = 400
-            y = 90
+            y = 90 + 0.3 * (780 - 400) / 0.25
             while x > 20:
                 clear_canvas()
                 grass.draw(400, 30)
