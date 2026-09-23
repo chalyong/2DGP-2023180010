@@ -79,7 +79,7 @@ def move_triangle():
                 grass.draw(400, 30)
                 character.draw(x, y)
                 x -= 0.25
-                y += 0.25
+                y += 0.3
                 update_canvas()
         mv_mode += 1
     
