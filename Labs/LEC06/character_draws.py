@@ -12,7 +12,7 @@ def move_circle():
         y = 300 + 200 * math.sin(rad)
         character.draw(x, y)
         update_canvas()
-        rad += 0.001
+        rad += 0.002
     pass
 
 def move_rectangle():
