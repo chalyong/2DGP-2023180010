@@ -71,6 +71,15 @@ def move_triangle():
                 character.draw(x, y)
                 x += 0.25
                 update_canvas()
+        elif mv_mode == 1:
+            x = 780
+            y = 90
+            while x > 400:
+                clear_canvas()
+                grass.draw(400, 30)
+                character.draw(x, y)
+                x -= 0.25
+                update_canvas()
         mv_mode += 1
     
     pass
