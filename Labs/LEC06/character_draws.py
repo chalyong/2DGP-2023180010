@@ -19,12 +19,16 @@ def move_rectangle():
     print("rectangle")
     x = 0
     y = 90
-    while x < 900:
-        clear_canvas()
-        grass.draw(400, 30)
-        character.draw(x, y)
-        x += 1
-        update_canvas()
+    mv_mode = 0
+    while mv_mode < 4:
+        if mv_mode == 0:
+            while x < 900:
+                clear_canvas()
+                grass.draw(400, 30)
+                character.draw(x, y)
+                x += 1
+                update_canvas()
+        mv_mode += 1
     pass
 
 def move_triangle():
