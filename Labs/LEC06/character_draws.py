@@ -20,31 +20,31 @@ def move_rectangle():
     mv_mode = 0
     while mv_mode < 4:
         if mv_mode == 0:
-            x = 120
+            x = 20
             y = 90
             while x < 780:
                 clear_canvas()
                 grass.draw(400, 30)
                 character.draw(x, y)
-                x += 0.5
+                x += 0.25
                 update_canvas()
         elif mv_mode == 1:
             x = 780
             y = 90
-            while y < 600:
+            while y < 550:
                 clear_canvas()
                 grass.draw(400, 30)
                 character.draw(x, y)
-                y += 0.5
+                y += 0.25
                 update_canvas()
         elif mv_mode == 2:
             x = 780
-            y = 600
-            while x > 120:
+            y = 550
+            while x > 20:
                 clear_canvas()
                 grass.draw(400, 30)
                 character.draw(x, y)
-                x -= 0.5
+                x -= 0.25
                 update_canvas()
         mv_mode += 1
     pass
