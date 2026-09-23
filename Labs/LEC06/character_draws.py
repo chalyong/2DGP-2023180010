@@ -37,6 +37,15 @@ def move_rectangle():
                 character.draw(x, y)
                 y += 0.5
                 update_canvas()
+        elif mv_mode == 2:
+            x = 780
+            y = 600
+            while x > 120:
+                clear_canvas()
+                grass.draw(400, 30)
+                character.draw(x, y)
+                x -= 0.5
+                update_canvas()
         mv_mode += 1
     pass
 
