@@ -7,7 +7,9 @@ def move_circle():
     while rad < 360:
         clear_canvas()
         grass.draw(400, 30)
-        character.draw(400, 300)
+        x = 400
+        y = 300
+        character.draw(x, y)
         update_canvas()
         rad += 0.1
     pass
