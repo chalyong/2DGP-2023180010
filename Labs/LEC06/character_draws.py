@@ -17,13 +17,14 @@ def move_circle():
 
 def move_rectangle():
     print("rectangle")
-    clear_canvas()
-    grass.draw(400, 30)
-    x = 400
-    y = 300
-    character.draw(x, y)
-    update_canvas()
-    delay(2)
+    x = 0
+    y = 90
+    while x < 900:
+        clear_canvas()
+        grass.draw(400, 30)
+        character.draw(x, y)
+        x += 1
+        update_canvas()
     pass
 
 def move_triangle():
