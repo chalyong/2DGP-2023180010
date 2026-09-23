@@ -7,11 +7,11 @@ def move_circle():
     while rad < 360:
         clear_canvas()
         grass.draw(400, 30)
-        x = 400 + 100 * math.cos(rad)
-        y = 300 + 100 * math.sin(rad)
+        x = 400 + 200 * math.cos(rad)
+        y = 300 + 200 * math.sin(rad)
         character.draw(x, y)
         update_canvas()
-        rad += 0.1
+        rad += 0.001
     pass
 
 def move_rectangle():
