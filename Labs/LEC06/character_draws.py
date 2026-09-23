@@ -3,10 +3,13 @@ from pico2d import *
 
 def move_circle():
     print("circle")
-    clear_canvas()
-    grass.draw(400, 30)
-    character.draw(400, 300)
-    update_canvas()
+    rad = 0
+    while rad < 360:
+        clear_canvas()
+        grass.draw(400, 30)
+        character.draw(400, 300)
+        update_canvas()
+        rad += 0.1
     pass
 
 def move_rectangle():
