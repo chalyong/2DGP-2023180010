@@ -3,7 +3,6 @@ import math
 from pico2d import *
 
 def move_circle():
-    print("circle")
     rad = 0
     while rad < 2 * math.pi:
         clear_canvas()
@@ -16,7 +15,6 @@ def move_circle():
     pass
 
 def move_rectangle():
-    print("rectangle")
     mv_mode = 0
     while mv_mode < 4:
         if mv_mode == 0:
@@ -59,7 +57,6 @@ def move_rectangle():
     pass
 
 def move_triangle():
-    print("triangle")
     mv_mode = 0
     while mv_mode < 3:
         if mv_mode == 0:
