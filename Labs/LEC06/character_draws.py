@@ -60,13 +60,14 @@ def move_rectangle():
 
 def move_triangle():
     print("triangle")
-    clear_canvas()
-    grass.draw(400, 30)
-    x = 400
-    y = 300
-    character.draw(x, y)
-    update_canvas()
-    delay(2)
+    x = 20
+    y = 90
+    while x < 780:
+        clear_canvas()
+        grass.draw(400, 30)
+        character.draw(x, y)
+        x += 0.25
+        update_canvas()
     pass
 
 open_canvas(800, 600)
