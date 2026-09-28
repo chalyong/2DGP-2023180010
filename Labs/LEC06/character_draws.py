@@ -65,12 +65,14 @@ def move_tri_right():
 
 def move_tri_bottom():
     print("t_bottom")
+    for x in range(750, 50, -5):
+        draw_character(x, 200)
     pass
 
 def move_triangle():
     print("triangle")
     #move_tri_left()
-    move_tri_right()
+    #move_tri_right()
     move_tri_bottom()
     pass
 
