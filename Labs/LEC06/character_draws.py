@@ -4,19 +4,19 @@ from pico2d import *
 
 def move_circle():
     print("circle")
-    rad = 0
-    while rad < 2 * math.pi:
+    for degree in range(0,360,5):
+        theta = math.radians(degree)
         clear_canvas()
         grass.draw(400, 30)
-        x = 400 + 200 * math.cos(rad)
-        y = 300 + 200 * math.sin(rad)
+        x = 400 + 200 * math.cos(theta)
+        y = 300 + 200 * math.sin(theta)
         character.draw(x, y)
         update_canvas()
-        rad += 0.001
     pass
 
 def move_rectangle():
     print("rectangle")
+
     pass
 
 def move_triangle():
