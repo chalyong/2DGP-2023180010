@@ -71,8 +71,8 @@ def move_tri_bottom():
 
 def move_triangle():
     print("triangle")
-    #move_tri_left()
-    #move_tri_right()
+    move_tri_left()
+    move_tri_right()
     move_tri_bottom()
     pass
 
@@ -80,8 +80,8 @@ open_canvas(800, 600)
 character = load_image('character.png')
 
 while True:
-    #move_circle()
-    #move_rectangle()
+    move_circle()
+    move_rectangle()
     move_triangle()
     pass
 
