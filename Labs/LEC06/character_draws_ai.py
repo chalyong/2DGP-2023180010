@@ -44,6 +44,12 @@ def move_rectangle():
 	move_rectangle_left()
 
 
+def move_triangle_left():
+	for x in range(50, 401, 10):
+		y = 100 + (x - 50) * 300 / 350
+		draw_character(x, y)
+
+
 open_canvas(800, 600)
 character = load_image('character.png')
 
