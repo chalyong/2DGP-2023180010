@@ -6,18 +6,22 @@ def move_circle():
     print("circle")
     for degree in range(0,360,5):
         theta = math.radians(degree)
-        clear_canvas()
-        grass.draw(400, 30)
         x = 400 + 200 * math.cos(theta)
         y = 300 + 200 * math.sin(theta)
-        character.draw(x, y)
-        update_canvas()
-        delay(0.02)
+        draw_character(x, y)
     pass
 
 def move_top():
     print("top")
+    for x in range(50, 750, 5):
+        draw_character(x, 550)
     pass
+
+def draw_character(x, y):
+    clear_canvas()
+    character.draw(x, y)
+    update_canvas()
+    delay(0.02)
 
 def move_right():
     print("right")
@@ -44,11 +48,10 @@ def move_triangle():
     pass
 
 open_canvas(800, 600)
-grass = load_image('grass.png')
 character = load_image('character.png')
 
 while True:
-    move_circle()
+    #move_circle()
     move_rectangle()
     move_triangle()
     pass
