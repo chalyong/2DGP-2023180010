@@ -51,6 +51,9 @@ def move_rectangle():
 
 def move_tri_left():
     print("t_left")
+    for x in range(50, 400, 5):
+        y = 200 + (x - 50) * (400 - 100) / (400 - 50)
+        draw_character(x, y)
     pass
 
 def move_tri_right():
