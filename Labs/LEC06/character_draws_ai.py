@@ -56,6 +56,17 @@ def move_triangle_right():
 		draw_character(x, y)
 
 
+def move_triangle_bottom():
+	for x in range(750, 49, -10):
+		draw_character(x, 100)
+
+
+def move_triangle():
+	move_triangle_left()
+	move_triangle_right()
+	move_triangle_bottom()
+
+
 open_canvas(800, 600)
 character = load_image('character.png')
 
