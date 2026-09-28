@@ -27,6 +27,11 @@ def move_rectangle_right():
 		draw_character(750, y)
 
 
+def move_rectangle_bottom():
+	for x in range(750, 49, -10):
+		draw_character(x, 50)
+
+
 open_canvas(800, 600)
 character = load_image('character.png')
 
