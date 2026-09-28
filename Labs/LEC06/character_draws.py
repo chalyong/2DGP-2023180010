@@ -25,6 +25,8 @@ def draw_character(x, y):
 
 def move_right():
     print("right")
+    for y in range(550, 50, -5):
+        draw_character(750, y)
     pass
 
 def move_bottom():
@@ -37,7 +39,7 @@ def move_left():
 
 def move_rectangle():
     print("rectangle")
-    move_top()
+    #move_top()
     move_right()
     move_bottom()
     move_left()
