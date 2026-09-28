@@ -43,14 +43,29 @@ def move_left():
 
 def move_rectangle():
     print("rectangle")
-    #move_top()
-    #move_right()
-    #move_bottom()
+    move_top()
+    move_right()
+    move_bottom()
     move_left()
+    pass
+
+def move_tri_left():
+    print("t_left")
+    pass
+
+def move_tri_right():
+    print("t_right")
+    pass
+
+def move_tri_bottom():
+    print("t_bottom")
     pass
 
 def move_triangle():
     print("triangle")
+    move_tri_left()
+    move_tri_right()
+    move_tri_bottom()
     pass
 
 open_canvas(800, 600)
@@ -58,7 +73,7 @@ character = load_image('character.png')
 
 while True:
     #move_circle()
-    move_rectangle()
+    #move_rectangle()
     move_triangle()
     pass
 
