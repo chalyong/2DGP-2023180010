@@ -17,6 +17,11 @@ def move_circle():
 		draw_character(x, y)
 
 
+def move_rectangle_top():
+	for x in range(50, 751, 10):
+		draw_character(x, 550)
+
+
 open_canvas(800, 600)
 character = load_image('character.png')
 
