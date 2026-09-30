@@ -27,9 +27,17 @@ def draw_frame(frame, x, y, w=None, h=None):
     atlas.clip_draw(left, bottom, frame['w'], frame['h'], x, y, w, h)
 
 
+def handle_events():
+    for event in get_events():
+        if event.type == SDL_QUIT:
+            return False
+        if event.type == SDL_KEYDOWN and event.key == SDLK_ESCAPE:
+            return False
+    return True
+
+
 def play_loop(name):
-    """name 애니메이션을 무한 반복한다.
-    애니메이션마다 프레임 수가 다르므로 count 로 나머지 연산을 한다."""
+    """name 애니메이션을 무한 반복한다. False 를 반환하면 종료."""
     anim = ANIMATIONS[name]
     index = 0
     while True:
@@ -39,8 +47,12 @@ def play_loop(name):
         delay(1.0 / anim['fps'])
         index += 1
 
+        if not handle_events():
+            return False
 
-while True:
-    play_loop('idle')
+
+running = True
+while running:
+    running = play_loop('idle')
 
 close_canvas()
