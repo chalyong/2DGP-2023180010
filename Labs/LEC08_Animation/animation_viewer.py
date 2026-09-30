@@ -17,6 +17,13 @@ with open('character_atlas.json', encoding='utf-8') as fp:
 ATLAS_W, ATLAS_H = META['atlas_size']
 ANIMATIONS = META['animations']
 
+# 메타데이터 확인: 애니메이션마다 프레임 수 / fps / 프레임 크기가 다른지 출력
+print('atlas: %dx%d' % (ATLAS_W, ATLAS_H))
+for name, anim in ANIMATIONS.items():
+    kinds = len({(f['w'], f['h']) for f in anim['frames']})
+    print('%-7s frames=%-3d fps=%-3d size-kinds=%d'
+          % (name, anim['count'], anim['fps'], kinds))
+
 while True:
     clear_canvas()
     update_canvas()
