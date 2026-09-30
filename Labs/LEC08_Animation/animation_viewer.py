@@ -11,6 +11,7 @@ CANVAS_W, CANVAS_H = 800, 600
 CENTER_X, CENTER_Y = CANVAS_W // 2, CANVAS_H // 2
 
 ANIM_ORDER = ['idle', 'walk', 'run', 'jump', 'attack']
+REPEAT = 5
 
 open_canvas(CANVAS_W, CANVAS_H)
 
@@ -54,6 +55,7 @@ def handle_events():
 
 order_index = 0
 frame_index = 0
+repeat_count = 0
 running = True
 
 while running:
@@ -69,7 +71,11 @@ while running:
     frame_index += 1
     if frame_index >= anim['count']:
         frame_index = 0
-        order_index = (order_index + 1) % len(ANIM_ORDER)
+        repeat_count += 1
+        # 5회 반복하면 다음 애니메이션으로 넘어간다.
+        if repeat_count >= REPEAT:
+            repeat_count = 0
+            order_index = (order_index + 1) % len(ANIM_ORDER)
 
     running = handle_events()
 
