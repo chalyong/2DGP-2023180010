@@ -20,6 +20,9 @@ ANIMATIONS = META['animations']
 
 
 def draw_frame(frame, x, y, w=None, h=None):
+    # clip_draw 의 7, 8 번째 인수는 화면에 그릴 실제 크기(확대)이다.
+    if w is None:
+        w, h = frame['w'] * 2, frame['h'] * 2
     # clip_draw 의 두 번째 인수는 이미지 '하단' 기준 좌표이고,
     # JSON 의 y 는 '상단' 기준이므로 ATLAS_H 로 변환해야 한다.
     left = frame['x']
