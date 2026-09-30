@@ -28,16 +28,16 @@ def draw_frame(frame, x, y, w=None, h=None):
 
 
 def play_once(name):
-    """name 애니메이션의 모든 프레임을 순서대로 한 번씩 그린다."""
+    """name 애니메이션을 1회 재생한다. 프레임 수가 다른 경우도 count 로 처리."""
     anim = ANIMATIONS[name]
     for index in range(anim['count']):
         clear_canvas()
         draw_frame(anim['frames'][index], CENTER_X, CENTER_Y)
         update_canvas()
+        delay(0.05)
 
 
 while True:
     play_once('idle')
-    delay(0.1)
 
 close_canvas()
