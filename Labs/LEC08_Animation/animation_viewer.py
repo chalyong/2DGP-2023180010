@@ -23,10 +23,17 @@ ANIMATIONS = META['animations']
 MIN_FRAME_H = min(f['h'] for a in ANIMATIONS.values() for f in a['frames'])
 SCALE = math.ceil((CANVAS_H / 2) / MIN_FRAME_H)
 
+# 프레임마다 높이가 다르기 때문에 clip_draw 의 '중심' 기준으로는 캐릭터가
+# 위아래로 흔들린다. 기준 높이만큼을 바닥선(GROUND_Y)에 맞춰 그림 위치로 보정한다.
+REF_H = max(f['h'] for a in ANIMATIONS.values() for f in a['frames'])
+GROUND_Y = CENTER_Y + REF_H * SCALE // 2
 
-def draw_frame(frame, x, y, w=None, h=None):
+
+def draw_frame(frame, x=CENTER_X, w=None, h=None):
     # clip_draw 의 7, 8 번째 인수는 화면에 그릴 실제 크기(확대)이다.
     w, h = frame['w'] * SCALE, frame['h'] * SCALE
+    # 프레임 높이가 달라도 바닥선은 같도록 y 를 보정한다.
+    y = GROUND_Y - h // 2
     # clip_draw 의 두 번째 인수는 이미지 '하단' 기준 좌표이고,
     # JSON 의 y 는 '상단' 기준이므로 ATLAS_H 로 변환해야 한다.
     left = frame['x']
@@ -49,7 +56,7 @@ def play_loop(name):
     index = 0
     while True:
         clear_canvas()
-        draw_frame(anim['frames'][index % anim['count']], CENTER_X, CENTER_Y)
+        draw_frame(anim['frames'][index % anim['count']])
         update_canvas()
         delay(1.0 / anim['fps'])
         index += 1
