@@ -18,10 +18,11 @@ ATLAS_W, ATLAS_H = META['atlas_size']
 ANIMATIONS = META['animations']
 
 frame = ANIMATIONS['idle']['frames'][0]
+left, top, width, height = frame['x'], frame['y'], frame['w'], frame['h']
 
 while True:
     clear_canvas()
-    atlas.clip_draw(frame['x'], frame['y'], frame['w'], frame['h'], 400, 300)
+    atlas.clip_draw(left, top, width, height, 400, 300)
     update_canvas()
     delay(0.1)
 
