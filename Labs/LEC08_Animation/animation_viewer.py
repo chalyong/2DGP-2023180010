@@ -3,6 +3,7 @@
 # character_atlas.png / character_atlas.json 을 이용한 애니메이션 재생기
 # 2023180010
 import json
+import math
 
 from pico2d import *
 
@@ -18,11 +19,14 @@ with open('character_atlas.json', encoding='utf-8') as fp:
 ATLAS_W, ATLAS_H = META['atlas_size']
 ANIMATIONS = META['animations']
 
+# 가장 작은 프레임도 화면 높이의 절반 이상이 되도록 스케일을 정한다.
+MIN_FRAME_H = min(f['h'] for a in ANIMATIONS.values() for f in a['frames'])
+SCALE = math.ceil((CANVAS_H / 2) / MIN_FRAME_H)
+
 
 def draw_frame(frame, x, y, w=None, h=None):
     # clip_draw 의 7, 8 번째 인수는 화면에 그릴 실제 크기(확대)이다.
-    if w is None:
-        w, h = frame['w'] * 2, frame['h'] * 2
+    w, h = frame['w'] * SCALE, frame['h'] * SCALE
     # clip_draw 의 두 번째 인수는 이미지 '하단' 기준 좌표이고,
     # JSON 의 y 는 '상단' 기준이므로 ATLAS_H 로 변환해야 한다.
     left = frame['x']
