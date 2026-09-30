@@ -27,17 +27,20 @@ def draw_frame(frame, x, y, w=None, h=None):
     atlas.clip_draw(left, bottom, frame['w'], frame['h'], x, y, w, h)
 
 
-def play_once(name):
-    """name 애니메이션을 1회 재생한다. 속도는 메타데이터의 fps 를 따른다."""
+def play_loop(name):
+    """name 애니메이션을 무한 반복한다.
+    애니메이션마다 프레임 수가 다르므로 count 로 나머지 연산을 한다."""
     anim = ANIMATIONS[name]
-    for index in range(anim['count']):
+    index = 0
+    while True:
         clear_canvas()
-        draw_frame(anim['frames'][index], CENTER_X, CENTER_Y)
+        draw_frame(anim['frames'][index % anim['count']], CENTER_X, CENTER_Y)
         update_canvas()
         delay(1.0 / anim['fps'])
+        index += 1
 
 
 while True:
-    play_once('idle')
+    play_loop('idle')
 
 close_canvas()
