@@ -4,7 +4,11 @@
 # 2023180010
 from pico2d import *
 
-open_canvas(800, 600)
+CANVAS_W, CANVAS_H = 800, 600
+
+open_canvas(CANVAS_W, CANVAS_H)
+
+atlas = load_image('character_atlas.png')
 
 while True:
     clear_canvas()
