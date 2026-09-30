@@ -28,13 +28,13 @@ def draw_frame(frame, x, y, w=None, h=None):
 
 
 def play_once(name):
-    """name 애니메이션을 1회 재생한다. 프레임 수가 다른 경우도 count 로 처리."""
+    """name 애니메이션을 1회 재생한다. 속도는 메타데이터의 fps 를 따른다."""
     anim = ANIMATIONS[name]
     for index in range(anim['count']):
         clear_canvas()
         draw_frame(anim['frames'][index], CENTER_X, CENTER_Y)
         update_canvas()
-        delay(0.05)
+        delay(1.0 / anim['fps'])
 
 
 while True:
