@@ -7,6 +7,7 @@ import json
 from pico2d import *
 
 CANVAS_W, CANVAS_H = 800, 600
+CENTER_X, CENTER_Y = CANVAS_W // 2, CANVAS_H // 2
 
 open_canvas(CANVAS_W, CANVAS_H)
 
@@ -30,7 +31,7 @@ frame = ANIMATIONS['idle']['frames'][0]
 
 while True:
     clear_canvas()
-    draw_frame(frame, 400, 300)
+    draw_frame(frame, CENTER_X, CENTER_Y)
     update_canvas()
     delay(0.1)
 
