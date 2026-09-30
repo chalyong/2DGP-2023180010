@@ -10,6 +10,8 @@ from pico2d import *
 CANVAS_W, CANVAS_H = 800, 600
 CENTER_X, CENTER_Y = CANVAS_W // 2, CANVAS_H // 2
 
+ANIM_ORDER = ['idle', 'walk', 'run', 'jump', 'attack']
+
 open_canvas(CANVAS_W, CANVAS_H)
 
 atlas = load_image('character_atlas.png')
@@ -50,23 +52,25 @@ def handle_events():
     return True
 
 
-def play_loop(name):
-    """name 애니메이션을 무한 반복한다. False 를 반환하면 종료."""
-    anim = ANIMATIONS[name]
-    index = 0
-    while True:
-        clear_canvas()
-        draw_frame(anim['frames'][index % anim['count']])
-        update_canvas()
-        delay(1.0 / anim['fps'])
-        index += 1
-
-        if not handle_events():
-            return False
-
-
+order_index = 0
+frame_index = 0
 running = True
+
 while running:
-    running = play_loop('idle')
+    name = ANIM_ORDER[order_index]
+    anim = ANIMATIONS[name]
+
+    clear_canvas()
+    draw_frame(anim['frames'][frame_index])
+    update_canvas()
+    delay(1.0 / anim['fps'])
+
+    # 애니메이션마다 프레임 수가 다르므로 count 로 비교한다.
+    frame_index += 1
+    if frame_index >= anim['count']:
+        frame_index = 0
+        order_index = (order_index + 1) % len(ANIM_ORDER)
+
+    running = handle_events()
 
 close_canvas()
