@@ -27,12 +27,17 @@ def draw_frame(frame, x, y, w=None, h=None):
     atlas.clip_draw(left, bottom, frame['w'], frame['h'], x, y, w, h)
 
 
-frame = ANIMATIONS['idle']['frames'][0]
+def play_once(name):
+    """name 애니메이션의 모든 프레임을 순서대로 한 번씩 그린다."""
+    anim = ANIMATIONS[name]
+    for index in range(anim['count']):
+        clear_canvas()
+        draw_frame(anim['frames'][index], CENTER_X, CENTER_Y)
+        update_canvas()
+
 
 while True:
-    clear_canvas()
-    draw_frame(frame, CENTER_X, CENTER_Y)
-    update_canvas()
+    play_once('idle')
     delay(0.1)
 
 close_canvas()
