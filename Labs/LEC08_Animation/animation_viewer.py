@@ -17,12 +17,20 @@ with open('character_atlas.json', encoding='utf-8') as fp:
 ATLAS_W, ATLAS_H = META['atlas_size']
 ANIMATIONS = META['animations']
 
+
+def draw_frame(frame, x, y, w=None, h=None):
+    # clip_draw 의 두 번째 인수는 이미지 '하단' 기준 좌표이고,
+    # JSON 의 y 는 '상단' 기준이므로 ATLAS_H 로 변환해야 한다.
+    left = frame['x']
+    bottom = ATLAS_H - frame['y'] - frame['h']
+    atlas.clip_draw(left, bottom, frame['w'], frame['h'], x, y, w, h)
+
+
 frame = ANIMATIONS['idle']['frames'][0]
-left, top, width, height = frame['x'], frame['y'], frame['w'], frame['h']
 
 while True:
     clear_canvas()
-    atlas.clip_draw(left, top, width, height, 400, 300)
+    draw_frame(frame, 400, 300)
     update_canvas()
     delay(0.1)
 
