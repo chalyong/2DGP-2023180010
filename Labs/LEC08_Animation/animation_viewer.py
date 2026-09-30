@@ -12,6 +12,8 @@ CENTER_X, CENTER_Y = CANVAS_W // 2, CANVAS_H // 2
 
 ANIM_ORDER = ['idle', 'walk', 'run', 'jump', 'attack']
 REPEAT = 5
+PAUSE_TIME = 1.0
+TICK = 1.0 / 60
 
 open_canvas(CANVAS_W, CANVAS_H)
 
@@ -56,26 +58,38 @@ def handle_events():
 order_index = 0
 frame_index = 0
 repeat_count = 0
+paused = False
+pause_timer = 0.0
 running = True
 
 while running:
     name = ANIM_ORDER[order_index]
     anim = ANIMATIONS[name]
 
-    clear_canvas()
-    draw_frame(anim['frames'][frame_index])
-    update_canvas()
-    delay(1.0 / anim['fps'])
-
-    # 애니메이션마다 프레임 수가 다르므로 count 로 비교한다.
-    frame_index += 1
-    if frame_index >= anim['count']:
-        frame_index = 0
-        repeat_count += 1
-        # 5회 반복하면 다음 애니메이션으로 넘어간다.
-        if repeat_count >= REPEAT:
-            repeat_count = 0
+    if paused:
+        # 5회 반복을 마친 뒤 1초 동안 정지한다.
+        clear_canvas()
+        update_canvas()
+        delay(TICK)
+        pause_timer -= TICK
+        if pause_timer <= 0:
+            paused = False
             order_index = (order_index + 1) % len(ANIM_ORDER)
+    else:
+        clear_canvas()
+        draw_frame(anim['frames'][frame_index])
+        update_canvas()
+        delay(1.0 / anim['fps'])
+
+        # 애니메이션마다 프레임 수가 다르므로 count 로 비교한다.
+        frame_index += 1
+        if frame_index >= anim['count']:
+            frame_index = 0
+            repeat_count += 1
+            if repeat_count >= REPEAT:
+                repeat_count = 0
+                paused = True
+                pause_timer = PAUSE_TIME
 
     running = handle_events()
 
