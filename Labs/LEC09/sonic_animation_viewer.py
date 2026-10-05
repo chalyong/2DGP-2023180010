@@ -11,7 +11,25 @@ SPRITE_SHEET = 'sonic-sprite.png'
 ANIMATION_ORDER = [f'anim{i}' for i in range(1, 13)]
 
 # 동작별 프레임 좌표 테이블: 프레임 = (sx, sy, sw, sh), 이미지 하단 기준
-ANIMATIONS = {name: [] for name in ANIMATION_ORDER}
+ANIMATIONS = {
+    'anim1': [
+        (2, 447, 25, 39), (32, 447, 22, 38), (59, 447, 27, 39),
+        (86, 447, 27, 38), (118, 447, 27, 38), (150, 447, 27, 38),
+        (182, 447, 27, 38), (209, 448, 28, 38), (237, 448, 29, 38),
+        (270, 448, 24, 32), (303, 448, 28, 26),
+    ],
+    'anim2': [],
+    'anim3': [],
+    'anim4': [],
+    'anim5': [],
+    'anim6': [],
+    'anim7': [],
+    'anim8': [],
+    'anim9': [],
+    'anim10': [],
+    'anim11': [],
+    'anim12': [],
+}
 
 
 def handle_events():
