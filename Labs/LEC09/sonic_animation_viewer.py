@@ -30,6 +30,7 @@ MOVE_LR_ANIMS = {
 }
 MOVE_MARGIN = 80  # 화면 밖 기준 여유 폭(px)
 JUMP_HEIGHT = 200  # 점프 최고 높이(px)
+FALL_HEIGHT = 260  # 낙하 시작 높이(px)
 
 # 동작별 프레임 좌표 테이블: 프레임 = (sx, sy, sw, sh), 이미지 하단 기준
 ANIMATIONS = {
@@ -117,6 +118,13 @@ def jump_dy(elapsed):
     return int(JUMP_HEIGHT * 4 * t * (1 - t))
 
 
+def fall_dy(elapsed):
+    """낙하의 y 오프셋. 위에서 지상까지 내려오는 것을 반복한다."""
+    period = 1.0  # 낙하 1회 시간(초)
+    t = (elapsed % period) / period
+    return int(FALL_HEIGHT * (1 - t))  # 위 -> 지상
+
+
 def calc_scale():
     """가장 작은 프레임도 화면 높이의 절반 이상이 되도록 기본 배율을 구한 뒤 1/4로 줄인다."""
     min_h = min(sh for frames in ANIMATIONS.values() for _, _, _, sh in frames)
@@ -150,12 +158,15 @@ def main():
                 sx, sy, sw, sh = frames[frame_index]
                 # 바닥선 기준 정렬: 짧은 프레임도 발이 같은 높이에 오도록
                 y = ground_y - sh * scale // 2
+                elapsed = time.time() - anim_start
                 x = CENTER_X
                 if name in MOVE_LR_ANIMS:
-                    x = move_lr_x(name, time.time() - anim_start)
+                    x = move_lr_x(name, elapsed)
                 dy = 0
                 if name == 'anim8':  # 점프
-                    dy = jump_dy(time.time() - anim_start)
+                    dy = jump_dy(elapsed)
+                elif name == 'anim11':  # 낙하
+                    dy = fall_dy(elapsed)
                 draw_frame(sheet, (sx, sy, sw, sh), dx=x, dy=y + dy, scale=scale)
         update_canvas()
         delay(1.0 / FPS)
