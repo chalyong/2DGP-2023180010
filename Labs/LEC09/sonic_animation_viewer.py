@@ -92,10 +92,17 @@ def calc_scale():
     return math.ceil((CANVAS_H / 2) / min_h)
 
 
+def calc_ground_y(scale):
+    """프레임 높이가 달라도 흔들리지 않도록 바닥선을 정한다."""
+    ref_h = max(sh for frames in ANIMATIONS.values() for _, _, _, sh in frames)
+    return CENTER_Y + ref_h * scale // 2
+
+
 def main():
     open_canvas(CANVAS_W, CANVAS_H)
     sheet = load_image(SPRITE_SHEET)
     scale = calc_scale()
+    ground_y = calc_ground_y(scale)
 
     running = True
     anim_index = 0
@@ -107,7 +114,10 @@ def main():
         if pause_timer <= 0:
             frames = ANIMATIONS[ANIMATION_ORDER[anim_index]]
             if frames:
-                draw_frame(sheet, frames[frame_index], scale=scale)
+                sx, sy, sw, sh = frames[frame_index]
+                # 바닥선 기준 정렬: 짧은 프레임도 발이 같은 높이에 오도록
+                y = ground_y - sh * scale // 2
+                draw_frame(sheet, (sx, sy, sw, sh), dy=y, scale=scale)
         update_canvas()
         delay(1.0 / FPS)
 
