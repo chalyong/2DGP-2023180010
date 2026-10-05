@@ -31,6 +31,7 @@ MOVE_LR_ANIMS = {
 MOVE_MARGIN = 80  # 화면 밖 기준 여유 폭(px)
 JUMP_HEIGHT = 200  # 점프 최고 높이(px)
 FALL_HEIGHT = 260  # 낙하 시작 높이(px)
+BRAKE_DIST = 520  # 브레이크로 진입하는 거리(px)
 
 # 동작별 프레임 좌표 테이블: 프레임 = (sx, sy, sw, sh), 이미지 하단 기준
 ANIMATIONS = {
@@ -125,6 +126,13 @@ def fall_dy(elapsed):
     return int(FALL_HEIGHT * (1 - t))  # 위 -> 지상
 
 
+def brake_x(elapsed):
+    """브레이크의 x. 왼쪽에서 빠르게 진입해 감속하며 멈춘 뒤 반복한다. (ease-out)"""
+    cycle = 1.6  # 브레이크 1회 시간(초)
+    t = (elapsed % cycle) / cycle
+    return int(-MOVE_MARGIN + BRAKE_DIST * (1 - (1 - t) ** 3))
+
+
 def calc_scale():
     """가장 작은 프레임도 화면 높이의 절반 이상이 되도록 기본 배율을 구한 뒤 1/4로 줄인다."""
     min_h = min(sh for frames in ANIMATIONS.values() for _, _, _, sh in frames)
@@ -162,6 +170,8 @@ def main():
                 x = CENTER_X
                 if name in MOVE_LR_ANIMS:
                     x = move_lr_x(name, elapsed)
+                elif name == 'anim9':  # 브레이크
+                    x = brake_x(elapsed)
                 dy = 0
                 if name == 'anim8':  # 점프
                     dy = jump_dy(elapsed)
