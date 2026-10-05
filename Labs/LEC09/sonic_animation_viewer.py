@@ -20,6 +20,14 @@ FPS = 10  # 프레임 전환 속도
 REPEAT = 5  # 동작 하나당 반복 횟수
 PAUSE_TIME = 1.0  # 동작 사이 대기 시간(초)
 
+# 이동 동작 (화면을 가로지르며 재생): 이름 -> 초당 이동 픽셀
+MOVE_ANIMS = {
+    'anim2': 240,   # 달리기
+    'anim3': 240,   # 구르기 전환 달리기
+    'anim9': 320,   # 고속 달리기
+}
+MOVE_MARGIN = 80  # 화면 밖 기준 여유 폭(px)
+
 # 동작별 프레임 좌표 테이블: 프레임 = (sx, sy, sw, sh), 이미지 하단 기준
 ANIMATIONS = {
     'anim1': [
@@ -93,6 +101,14 @@ def draw_frame(sheet, frame, dx=CENTER_X, dy=CENTER_Y, scale=1):
     sheet.clip_draw(sx, sy, sw, sh, dx, dy, int(sw * scale), int(sh * scale))
 
 
+def move_x(name, elapsed, scale):
+    """이동 동작의 현재 x 위치. 왼쪽 밖 -> 오른쪽 밖으로 이동한다."""
+    speed = MOVE_ANIMS[name]
+    x = elapsed * speed
+    span = CANVAS_W + 2 * MOVE_MARGIN
+    return (x % span) - MOVE_MARGIN
+
+
 def calc_scale():
     """가장 작은 프레임도 화면 높이의 절반 이상이 되도록 기본 배율을 구한 뒤 1/4로 줄인다."""
     min_h = min(sh for frames in ANIMATIONS.values() for _, _, _, sh in frames)
@@ -116,15 +132,20 @@ def main():
     frame_index = 0
     repeat_count = 0
     pause_start = None  # 1초 대기 시작 시각 (미대기 상태)
+    anim_start = time.time()  # 현재 동작 시작 시각 (이동 동작 위치 계산용)
     while running:
         clear_canvas()
         if pause_start is None:
-            frames = ANIMATIONS[ANIMATION_ORDER[anim_index]]
+            name = ANIMATION_ORDER[anim_index]
+            frames = ANIMATIONS[name]
             if frames:
                 sx, sy, sw, sh = frames[frame_index]
                 # 바닥선 기준 정렬: 짧은 프레임도 발이 같은 높이에 오도록
                 y = ground_y - sh * scale // 2
-                draw_frame(sheet, (sx, sy, sw, sh), dy=y, scale=scale)
+                x = CENTER_X
+                if name in MOVE_ANIMS:
+                    x = int(move_x(name, time.time() - anim_start, scale))
+                draw_frame(sheet, (sx, sy, sw, sh), dx=x, dy=y, scale=scale)
         update_canvas()
         delay(1.0 / FPS)
 
@@ -136,6 +157,7 @@ def main():
                 frame_index = 0
                 repeat_count = 0
                 pause_start = None
+                anim_start = time.time()
         else:
             frame_index += 1
             if frame_index >= len(frames):
