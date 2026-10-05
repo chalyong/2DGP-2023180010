@@ -7,6 +7,8 @@ CENTER_X, CENTER_Y = CANVAS_W // 2, CANVAS_H // 2
 
 SPRITE_SHEET = 'sonic-sprite.png'
 
+FPS = 10  # 프레임 전환 속도
+
 # 동작 12개의 재생 순서 (시트 순서, 행8·행10 끝 분리 포함)
 ANIMATION_ORDER = [f'anim{i}' for i in range(1, 13)]
 
@@ -85,13 +87,16 @@ def main():
     sheet = load_image(SPRITE_SHEET)
 
     running = True
+    frame_index = 0
     while running:
         clear_canvas()
         frames = ANIMATIONS[ANIMATION_ORDER[0]]
         if frames:
-            draw_frame(sheet, frames[0])
+            draw_frame(sheet, frames[frame_index])
         update_canvas()
-        delay(0.1)
+        delay(1.0 / FPS)
+
+        frame_index = (frame_index + 1) % max(1, len(frames))
         running = handle_events()
 
     close_canvas()
