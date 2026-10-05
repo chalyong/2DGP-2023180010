@@ -20,11 +20,13 @@ FPS = 10  # 프레임 전환 속도
 REPEAT = 5  # 동작 하나당 반복 횟수
 PAUSE_TIME = 1.0  # 동작 사이 대기 시간(초)
 
-# 이동 동작 (화면을 가로지르며 재생): 이름 -> 초당 이동 픽셀
-MOVE_ANIMS = {
-    'anim2': 240,   # 달리기
-    'anim3': 240,   # 구르기 전환 달리기
-    'anim9': 320,   # 고속 달리기
+# 수평 이동 동작 (걷기/구르기/달리기): 이름 -> 초당 이동 픽셀
+MOVE_LR_ANIMS = {
+    'anim2': 120,   # 걷기 (2행)
+    'anim4': 220,   # 구르기1 (4행)
+    'anim5': 220,   # 구르기2 (5행)
+    'anim6': 320,   # 달리기1 (6행)
+    'anim7': 320,   # 달리기2 (7행)
 }
 MOVE_MARGIN = 80  # 화면 밖 기준 여유 폭(px)
 
@@ -101,12 +103,10 @@ def draw_frame(sheet, frame, dx=CENTER_X, dy=CENTER_Y, scale=1):
     sheet.clip_draw(sx, sy, sw, sh, dx, dy, int(sw * scale), int(sh * scale))
 
 
-def move_x(name, elapsed, scale):
-    """이동 동작의 현재 x 위치. 왼쪽 밖 -> 오른쪽 밖으로 이동한다."""
-    speed = MOVE_ANIMS[name]
-    x = elapsed * speed
+def move_lr_x(name, elapsed):
+    """수평 이동 동작의 x. 왼쪽 밖 -> 오른쪽 밖으로 이동하고, 나가면 왼쪽에서 재등장한다."""
     span = CANVAS_W + 2 * MOVE_MARGIN
-    return (x % span) - MOVE_MARGIN
+    return int((elapsed * MOVE_LR_ANIMS[name]) % span - MOVE_MARGIN)
 
 
 def calc_scale():
@@ -143,8 +143,8 @@ def main():
                 # 바닥선 기준 정렬: 짧은 프레임도 발이 같은 높이에 오도록
                 y = ground_y - sh * scale // 2
                 x = CENTER_X
-                if name in MOVE_ANIMS:
-                    x = int(move_x(name, time.time() - anim_start, scale))
+                if name in MOVE_LR_ANIMS:
+                    x = move_lr_x(name, time.time() - anim_start)
                 draw_frame(sheet, (sx, sy, sw, sh), dx=x, dy=y, scale=scale)
         update_canvas()
         delay(1.0 / FPS)
