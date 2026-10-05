@@ -1,5 +1,11 @@
 # -*- coding: utf-8 -*-
-# LEC09 - sonic 스프라이트 애니메이션 뷰어
+"""LEC09 - sonic 스프라이트 애니메이션 뷰어
+
+sonic-sprite.png 의 동작 12개를 순서대로 재생한다.
+동작 하나당 5회 반복 후 1초 쉬고 다음 동작으로 넘어가며,
+마지막 동작 이후 처음부터 무한 반복한다.
+창 닫기로 종료한다.
+"""
 import math
 import time
 
@@ -13,9 +19,6 @@ SPRITE_SHEET = 'sonic-sprite.png'
 FPS = 10  # 프레임 전환 속도
 REPEAT = 5  # 동작 하나당 반복 횟수
 PAUSE_TIME = 1.0  # 동작 사이 대기 시간(초)
-
-# 동작 12개의 재생 순서 (시트 순서, 행8·행10 끝 분리 포함)
-ANIMATION_ORDER = [f'anim{i}' for i in range(1, 13)]
 
 # 동작별 프레임 좌표 테이블: 프레임 = (sx, sy, sw, sh), 이미지 하단 기준
 ANIMATIONS = {
@@ -71,6 +74,9 @@ ANIMATIONS = {
         (96, 59, 23, 39), (125, 59, 23, 39),
     ],
 }
+
+# 재생 순서: 정의된 순서 그대로 (anim1 -> anim12)
+ANIMATION_ORDER = list(ANIMATIONS)
 
 
 def handle_events():
@@ -143,4 +149,5 @@ def main():
     close_canvas()
 
 
-main()
+if __name__ == '__main__':
+    main()
