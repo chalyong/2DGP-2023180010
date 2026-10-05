@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 # LEC09 - sonic 스프라이트 애니메이션 뷰어
 import math
+import time
 
 from pico2d import *
 
@@ -108,10 +109,10 @@ def main():
     anim_index = 0
     frame_index = 0
     repeat_count = 0
-    pause_timer = 0.0
+    pause_start = None  # 1초 대기 시작 시각 (미대기 상태)
     while running:
         clear_canvas()
-        if pause_timer <= 0:
+        if pause_start is None:
             frames = ANIMATIONS[ANIMATION_ORDER[anim_index]]
             if frames:
                 sx, sy, sw, sh = frames[frame_index]
@@ -121,13 +122,14 @@ def main():
         update_canvas()
         delay(1.0 / FPS)
 
-        if pause_timer > 0:
-            pause_timer -= 1.0 / FPS
-            if pause_timer <= 0:
+        if pause_start is not None:
+            # 실시간 경과 시간 기준 -> delay 오차가 1초 대기에 누적되지 않음
+            if time.time() - pause_start >= PAUSE_TIME:
                 # 마지막 동작(anim12) 다음은 다시 anim1 -> 무한 반복
                 anim_index = (anim_index + 1) % len(ANIMATION_ORDER)
                 frame_index = 0
                 repeat_count = 0
+                pause_start = None
         else:
             frame_index += 1
             if frame_index >= len(frames):
@@ -135,7 +137,7 @@ def main():
                 repeat_count += 1
                 if repeat_count >= REPEAT:
                     repeat_count = 0
-                    pause_timer = PAUSE_TIME
+                    pause_start = time.time()
         running = handle_events()
 
     close_canvas()
