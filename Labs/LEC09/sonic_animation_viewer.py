@@ -3,6 +3,9 @@
 from pico2d import *
 
 CANVAS_W, CANVAS_H = 800, 600
+CENTER_X, CENTER_Y = CANVAS_W // 2, CANVAS_H // 2
+
+SPRITE_SHEET = 'sonic-sprite.png'
 
 
 def handle_events():
@@ -15,6 +18,7 @@ def handle_events():
 
 def main():
     open_canvas(CANVAS_W, CANVAS_H)
+    sheet = load_image(SPRITE_SHEET)
 
     running = True
     while running:
