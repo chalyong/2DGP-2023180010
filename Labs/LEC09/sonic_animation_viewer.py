@@ -94,9 +94,9 @@ def draw_frame(sheet, frame, dx=CENTER_X, dy=CENTER_Y, scale=1):
 
 
 def calc_scale():
-    """가장 작은 프레임도 화면 높이의 절반 이상이 되도록 스케일을 구한다."""
+    """가장 작은 프레임도 화면 높이의 절반 이상이 되도록 기본 배율을 구한 뒤 1/4로 줄인다."""
     min_h = min(sh for frames in ANIMATIONS.values() for _, _, _, sh in frames)
-    return math.ceil((CANVAS_H / 2) / min_h)
+    return math.ceil((CANVAS_H / 2) / min_h) // 4
 
 
 def calc_ground_y(scale):
