@@ -87,16 +87,20 @@ def main():
     sheet = load_image(SPRITE_SHEET)
 
     running = True
+    anim_index = 0
     frame_index = 0
     while running:
         clear_canvas()
-        frames = ANIMATIONS[ANIMATION_ORDER[0]]
+        frames = ANIMATIONS[ANIMATION_ORDER[anim_index]]
         if frames:
             draw_frame(sheet, frames[frame_index])
         update_canvas()
         delay(1.0 / FPS)
 
-        frame_index = (frame_index + 1) % max(1, len(frames))
+        frame_index += 1
+        if frame_index >= len(frames):
+            frame_index = 0
+            anim_index = (anim_index + 1) % len(ANIMATION_ORDER)
         running = handle_events()
 
     close_canvas()
