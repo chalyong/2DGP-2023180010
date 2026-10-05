@@ -29,6 +29,7 @@ MOVE_LR_ANIMS = {
     'anim7': 320,   # 달리기2 (7행)
 }
 MOVE_MARGIN = 80  # 화면 밖 기준 여유 폭(px)
+JUMP_HEIGHT = 200  # 점프 최고 높이(px)
 
 # 동작별 프레임 좌표 테이블: 프레임 = (sx, sy, sw, sh), 이미지 하단 기준
 ANIMATIONS = {
@@ -109,6 +110,13 @@ def move_lr_x(name, elapsed):
     return int((elapsed * MOVE_LR_ANIMS[name]) % span - MOVE_MARGIN)
 
 
+def jump_dy(elapsed):
+    """점프의 y 오프셋. 포물선으로 올라갔다 내려온다. (pico2d 는 y축 위가 +)"""
+    period = 0.8  # 점프 1회 시간(초)
+    t = (elapsed % period) / period
+    return int(JUMP_HEIGHT * 4 * t * (1 - t))
+
+
 def calc_scale():
     """가장 작은 프레임도 화면 높이의 절반 이상이 되도록 기본 배율을 구한 뒤 1/4로 줄인다."""
     min_h = min(sh for frames in ANIMATIONS.values() for _, _, _, sh in frames)
@@ -145,7 +153,10 @@ def main():
                 x = CENTER_X
                 if name in MOVE_LR_ANIMS:
                     x = move_lr_x(name, time.time() - anim_start)
-                draw_frame(sheet, (sx, sy, sw, sh), dx=x, dy=y, scale=scale)
+                dy = 0
+                if name == 'anim8':  # 점프
+                    dy = jump_dy(time.time() - anim_start)
+                draw_frame(sheet, (sx, sy, sw, sh), dx=x, dy=y + dy, scale=scale)
         update_canvas()
         delay(1.0 / FPS)
 
