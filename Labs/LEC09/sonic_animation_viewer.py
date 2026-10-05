@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 # LEC09 - sonic 스프라이트 애니메이션 뷰어
+import math
+
 from pico2d import *
 
 CANVAS_W, CANVAS_H = 800, 600
@@ -84,9 +86,16 @@ def draw_frame(sheet, frame, dx=CENTER_X, dy=CENTER_Y, scale=1):
     sheet.clip_draw(sx, sy, sw, sh, dx, dy, int(sw * scale), int(sh * scale))
 
 
+def calc_scale():
+    """가장 작은 프레임도 화면 높이의 절반 이상이 되도록 스케일을 구한다."""
+    min_h = min(sh for frames in ANIMATIONS.values() for _, _, _, sh in frames)
+    return math.ceil((CANVAS_H / 2) / min_h)
+
+
 def main():
     open_canvas(CANVAS_W, CANVAS_H)
     sheet = load_image(SPRITE_SHEET)
+    scale = calc_scale()
 
     running = True
     anim_index = 0
@@ -98,7 +107,7 @@ def main():
         if pause_timer <= 0:
             frames = ANIMATIONS[ANIMATION_ORDER[anim_index]]
             if frames:
-                draw_frame(sheet, frames[frame_index])
+                draw_frame(sheet, frames[frame_index], scale=scale)
         update_canvas()
         delay(1.0 / FPS)
 
