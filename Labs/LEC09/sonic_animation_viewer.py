@@ -18,6 +18,8 @@ def main():
 
     running = True
     while running:
+        clear_canvas()
+        update_canvas()
         delay(0.1)
         running = handle_events()
 
