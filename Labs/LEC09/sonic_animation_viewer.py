@@ -105,6 +105,7 @@ def main():
         if pause_timer > 0:
             pause_timer -= 1.0 / FPS
             if pause_timer <= 0:
+                # 마지막 동작(anim12) 다음은 다시 anim1 -> 무한 반복
                 anim_index = (anim_index + 1) % len(ANIMATION_ORDER)
                 frame_index = 0
                 repeat_count = 0
