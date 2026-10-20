@@ -44,6 +44,29 @@ class Zombie:
         self.frame = (self.frame + 1) % 10
         self.x += 5
 
+class Ballon:
+    def __init__(self):
+        self.x = random.randint(20, 780)
+        self.y = 0
+        self.image = load_image('ball41x41.png')
+        self.speed = random.randint(2, 10)
+        self.size = random.randint(20, 60)
+        self.downcnt = 0
+        pass
+
+    def draw(self):
+        self.image.draw(self.x, self.y, self.size, self.size)
+
+    def update(self):
+        if(self.downcnt > 0):
+            self.y -= self.speed
+            self.downcnt -= 1
+        else:
+            self.y += self.speed
+        
+        if(self.y > 600 - self.size / 2):
+            self.downcnt = 3
+
 def handle_events():
     global running
     events = get_events()
@@ -59,6 +82,7 @@ def reset_world():
     global team
     global world
     global zombie
+    global ballon_zip
 
     running = True
     world = []
@@ -71,6 +95,9 @@ def reset_world():
 
     zombie = Zombie()
     world.append(zombie)
+
+    ballon_zip = [Ballon() for i in range(20)]
+    world += ballon_zip
 
 def update_world():
     for obj in world:
