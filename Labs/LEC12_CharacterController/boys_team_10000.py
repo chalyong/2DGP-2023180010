@@ -16,17 +16,20 @@ class Grass:
 
 
 class Boy:
+    image = None
+
     def __init__(self):
         self.x, self.y = random.randint(0, 800), 90
         self.frame = random.randint(0, 7)
-        self.image = load_image('run_animation.png')
+        if(Boy.image == None):
+            Boy.image = load_image('run_animation.png')
 
     def update(self):
         self.frame = (self.frame + 1) % 8
         self.x += 5
 
     def draw(self):
-        self.image.clip_draw(self.frame * 100, 0, 100, 100, self.x, self.y)
+        Boy.image.clip_draw(self.frame * 100, 0, 100, 100, self.x, self.y)
 
 
 def handle_events():
@@ -47,7 +50,7 @@ def reset_world():
     grass = Grass()
     world.append(grass)
 
-    team = [Boy() for i in range(10)]
+    team = [Boy() for i in range(2000)] # 렌더 자체에서도 렉이 걸려, 2000 으로 조정
     world += team
 
 
