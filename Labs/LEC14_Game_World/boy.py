@@ -7,14 +7,15 @@ from transitions import Machine
 
 
 class Boy:
-    def __init__(self):
-        self.x, self.y = 400, 90
+    def __init__(self, shoot_callback=None):
+        self.x, self.y = 400, 30
         self.frame = 0
         self.image = load_image('animation_sheet.png')
         self.idle_started_at = get_time()
         self.dir = 0
         self.face_dir = 1
         self.pressed_keys = set()
+        self.shoot_callback = shoot_callback
 
         self.machine = Machine(
             model=self,
@@ -28,6 +29,12 @@ class Boy:
                  'source': ['IDLE', 'SLEEP'], 'dest': 'RUN'},
                 {'trigger': 'stop_run',
                  'source': 'RUN', 'dest': 'IDLE'},
+                {'trigger': 'shoot_ball',
+                 'source': 'IDLE', 'dest': 'IDLE',
+                 'after': 'on_shoot_ball'},
+                {'trigger': 'shoot_ball',
+                 'source': 'RUN', 'dest': 'RUN',
+                 'after': 'on_shoot_ball'},
             ],
             initial='IDLE',
             auto_transitions=False,
@@ -43,11 +50,19 @@ class Boy:
     def on_enter_RUN(self):
         self.frame = 0
 
+    def on_shoot_ball(self):
+        direction = 'right' if self.face_dir == 1 else 'left'
+        print(f'Soccer ball launched to the {direction}!')
+        if self.shoot_callback:
+            self.shoot_callback(self.x, self.y, self.face_dir)
+
     def handle_event(self, event):
         if (event.type == SDL_KEYDOWN and
-                event.key == SDLK_SPACE and
-                self.state == 'SLEEP'):
-            self.wake_up()
+                event.key == SDLK_SPACE):
+            if self.state == 'SLEEP':
+                self.wake_up()
+            elif self.state in ('IDLE', 'RUN'):
+                self.shoot_ball()
             return
 
         if (event.type not in (SDL_KEYDOWN, SDL_KEYUP) or
