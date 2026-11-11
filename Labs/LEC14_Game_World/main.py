@@ -25,11 +25,14 @@ def handle_events():
 def reset_world():
     global boy
 
-    boy = Boy(shoot_callback=shoot_ball)
+    boy = Boy(y=30, shoot_callback=shoot_ball)
     game_world.add_object(boy, 1)
     
-    grass = Grass()
+    grass = Grass(y=60)
     game_world.add_object(grass, 0)
+
+    grass2 = Grass(y=10)
+    game_world.add_object(grass2, 2)
 
 
 def shoot_ball(x, y, direction):

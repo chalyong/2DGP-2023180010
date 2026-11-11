@@ -7,8 +7,9 @@ from transitions import Machine
 
 
 class Boy:
-    def __init__(self, shoot_callback=None):
-        self.x, self.y = 400, 30
+    def __init__(self, y=30, shoot_callback=None):
+        self.x = 400
+        self.y = y
         self.frame = 0
         self.image = load_image('animation_sheet.png')
         self.idle_started_at = get_time()
